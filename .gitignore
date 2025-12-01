@@ -1,7 +1,17 @@
+# Visual Studio
 .vs/
-*.user
 *.suo
-*.sdf
+*.user
+*.userosscache
+*.sln.docstates
+
+# Compilación
+[Bb]in/
+[Oo]bj/
+x64/
+Debug/
+Release/
+
+# Archivos de base de datos temporal
 *.db
-*.VC.db
-*.VC.VC.opendb
+*.log
