@@ -1,0 +1,288 @@
+COD FINAL  (en admin.txt.... 1 admin1 admin@tec.mx 1234 admin)
+
+
+cliente.h 
+
+#pragma once
+#include "Usuario.h"
+#include "AdministradorDeSesion.h"
+#include <iostream>
+#include <vector>
+#include <memory>
+
+class Cliente : public Usuario
+{
+public:
+    Cliente() {}
+
+    bool IniciarSesionCliente(AdministradorDeSesion& adminDeSesion)
+    {
+        system("cls");
+        std::string correoLogin, passwordLogin;
+        std::cout << "Correo: "; std::cin >> correoLogin;
+        std::cout << "Password: "; std::cin >> passwordLogin;
+
+        auto clientes = Usuario::ObtenerUsuarios("clientes.txt");
+
+        for (auto& cliente : clientes)
+        {
+            if (cliente->ValidarInicioSesion(correoLogin, passwordLogin))
+            {
+                adminDeSesion.login(correoLogin, passwordLogin, clientes);
+                return true;
+            }
+        }
+        return false;
+    }
+};
+
+
+
+
+Usuario.h
+
+#pragma once
+#include <string>
+#include <vector>
+#include <memory>
+#include <fstream>
+#include <iostream>
+
+class Usuario
+{
+protected:
+    int id;
+    std::string nombre;
+    std::string correo;
+    std::string password;
+    std::string rol; // "admin" o "cliente"
+
+public:
+    Usuario() : id(0) {}
+    Usuario(int _id, std::string _nombre, std::string _correo, std::string _password, std::string _rol)
+        : id(_id), nombre(_nombre), correo(_correo), password(_password), rol(_rol) {
+    }
+
+    int getId() const { return id; }
+    std::string getCorreo() const { return correo; }
+    std::string getRol() const { return rol; }
+
+    bool ValidarInicioSesion(const std::string& email, const std::string& pass) const
+    {
+        return correo == email && password == pass;
+    }
+
+    static std::vector<std::shared_ptr<Usuario>> ObtenerUsuarios(const std::string& archivo)
+    {
+        std::vector<std::shared_ptr<Usuario>> usuarios;
+        std::ifstream inputFile(archivo);
+        if (!inputFile.is_open()) return usuarios;
+
+        int _id;
+        std::string _nombre, _correo, _password, _rol;
+
+        while (inputFile >> _id >> _nombre >> _correo >> _password >> _rol) {
+            usuarios.push_back(std::make_shared<Usuario>(_id, _nombre, _correo, _password, _rol));
+        }
+        inputFile.close();
+        return usuarios;
+    }
+
+    static bool RegistrarUsuario(const std::string& archivo, int _id, const std::string& _nombre,
+        const std::string& _correo, const std::string& _password, const std::string& _rol)
+    {
+        std::ofstream outputFile(archivo, std::ios::app);
+        if (!outputFile.is_open()) return false;
+
+        outputFile << _id << " " << _nombre << " " << _correo << " " << _password << " " << _rol << std::endl;
+        outputFile.close();
+        return true;
+    }
+};
+
+
+
+
+AdministradorDeSesion.h
+
+#pragma once
+#include <map>
+#include <memory>
+#include <vector>
+#include <string>
+#include "Usuario.h"
+
+class AdministradorDeSesion
+{
+private:
+    std::map<int, std::shared_ptr<Usuario>> sesionesActivas;
+
+public:
+    bool login(const std::string& email, const std::string& password,
+        const std::vector<std::shared_ptr<Usuario>>& usuarios)
+    {
+        for (const auto& usuario : usuarios) {
+            if (usuario->ValidarInicioSesion(email, password)) {
+                sesionesActivas[usuario->getId()] = usuario;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void logout(int userId)
+    {
+        sesionesActivas.erase(userId);
+    }
+
+    bool isLoggedIn(int userId) const
+    {
+        return sesionesActivas.find(userId) != sesionesActivas.end();
+    }
+
+    std::shared_ptr<Usuario> getSesionUsuario(int idUsuario) const
+    {
+        auto it = sesionesActivas.find(idUsuario);
+        if (it != sesionesActivas.end()) {
+            return it->second;
+        }
+        return nullptr;
+    }
+};
+
+
+
+
+Menu.h 
+
+#pragma once
+#include "Usuario.h"
+#include <iostream>
+
+class Menu
+{
+public:
+    void MostrarMenu(std::shared_ptr<Usuario> cliente)
+    {
+        int opcion;
+        do {
+            system("cls");
+            std::cout << "---- MENU DE VUELOS ----\n";
+            std::cout << "1 - Reservar vuelo\n";
+            std::cout << "2 - Pagar boleto\n";
+            std::cout << "3 - Salir\n";
+            std::cin >> opcion;
+
+            switch (opcion)
+            {
+            case 1: std::cout << "Reservando vuelo...\n"; break;
+            case 2: std::cout << "Pagando boleto...\n"; break;
+            case 3: std::cout << "Saliendo...\n"; break;
+            default: std::cout << "Opción inválida.\n"; break;
+            }
+            std::cin.ignore(); std::cin.get();
+        } while (opcion != 3);
+    }
+};
+
+
+
+
+Sistema de re....cpp
+
+#include <iostream>
+#include "Usuario.h"
+#include "Cliente.h"
+#include "AdministradorDeSesion.h"
+#include "Menu.h"
+
+using namespace std;
+
+int main()
+{
+    AdministradorDeSesion adminDeSesion;
+    Menu menu;
+    Cliente cliente;
+
+    int opcion;
+    do {
+        system("cls");
+        cout << "1 - Iniciar sesión\n";
+        cout << "2 - Salir\n";
+        cin >> opcion;
+
+        if (opcion == 1)
+        {
+            system("cls");
+            int tipoUsuario;
+            cout << "1 - Administrador\n2 - Cliente\n";
+            cin >> tipoUsuario;
+
+            if (tipoUsuario == 1)
+            {
+                string correo, password;
+                cout << "Correo: "; cin >> correo;
+                cout << "Password: "; cin >> password;
+
+                auto admins = Usuario::ObtenerUsuarios("admin.txt");
+
+                if (adminDeSesion.login(correo, password, admins))
+                {
+                    int opcionAdmin;
+                    do {
+                        system("cls");
+                        cout << "---- PANEL ADMIN ----\n";
+                        cout << "1 - Registrar administrador\n";
+                        cout << "2 - Registrar cliente\n";
+                        cout << "3 - Cerrar sesión\n";
+                        cin >> opcionAdmin;
+
+                        if (opcionAdmin == 1)
+                        {
+                            string nombre, correoN, passwordN;
+                            cout << "Nombre: "; cin >> nombre;
+                            cout << "Correo: "; cin >> correoN;
+                            cout << "Password: "; cin >> passwordN;
+                            int nuevoId = admins.size() + 1;
+                            Usuario::RegistrarUsuario("admin.txt", nuevoId, nombre, correoN, passwordN, "admin");
+                        }
+                        else if (opcionAdmin == 2)
+                        {
+                            string nombre, correoN, passwordN;
+                            cout << "Nombre: "; cin >> nombre;
+                            cout << "Correo: "; cin >> correoN;
+                            cout << "Password: "; cin >> passwordN;
+                            auto clientesList = Usuario::ObtenerUsuarios("clientes.txt");
+                            int nuevoId = clientesList.size() + 1;
+                            Usuario::RegistrarUsuario("clientes.txt", nuevoId, nombre, correoN, passwordN, "cliente");
+                        }
+                    } while (opcionAdmin != 3);
+
+                    adminDeSesion.logout(1);
+                }
+                else
+                {
+                    cout << "Error: usuario o password incorrectos.\n";
+                    cin.ignore(); cin.get();
+                }
+            }
+            else if (tipoUsuario == 2)
+            {
+                if (cliente.IniciarSesionCliente(adminDeSesion))
+                {
+                    auto clienteLogueado = adminDeSesion.getSesionUsuario(1);
+                    menu.MostrarMenu(clienteLogueado);
+                    adminDeSesion.logout(1);
+                }
+                else
+                {
+                    cout << "Error: usuario o password incorrectos.\n";
+                    cin.ignore(); cin.get();
+                }
+            }
+        }
+
+    } while (opcion != 2);
+
+    return 0;
+}
