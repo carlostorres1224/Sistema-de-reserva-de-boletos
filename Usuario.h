@@ -9,11 +9,11 @@
 class Usuario
 {
 protected:
-    size_t id;  // IDs con size_t
+    size_t id;  
     std::string nombre;
     std::string correo;
     std::string password;
-    std::string rol; // "admin" o "cliente"
+    std::string rol;
 
 public:
     Usuario() : id(0) {}
@@ -48,7 +48,7 @@ public:
             std::string _nombre, _correo, _password, _rol;
 
             ss >> _id;
-            ss.ignore(); // saltar espacio
+            ss.ignore(); 
             ss >> _nombre >> _correo >> _password >> _rol;
 
             usuarios.push_back(std::make_shared<Usuario>(_id, _nombre, _correo, _password, _rol));

@@ -7,7 +7,6 @@
 
 using namespace std;
 
-// Función para crear un admin por defecto si admin.txt no existe o está vacío
 void CrearAdminPorDefecto() {
     ifstream archivo("admin.txt");
     if (!archivo.is_open() || archivo.peek() == ifstream::traits_type::eof()) {
@@ -19,7 +18,7 @@ void CrearAdminPorDefecto() {
 
 int main()
 {
-    CrearAdminPorDefecto(); // Asegura que haya al menos un admin
+    CrearAdminPorDefecto(); 
 
     AdministradorDeSesion adminDeSesion;
     Menu menu;
@@ -30,6 +29,7 @@ int main()
         system("cls");
         cout << "1 - Iniciar sesión\n";
         cout << "2 - Salir\n";
+        cout << "Admin predefinido: admin@tec.mx 1234\n";
         cin >> opcion;
 
         if (opcion == 1)

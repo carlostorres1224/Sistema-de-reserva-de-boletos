@@ -14,7 +14,6 @@ public:
         : Usuario(_id, _nombre, _correo, _password, _rol) {
     }
 
-    // Retorna el ID si login correcto, -1 si falla
     int IniciarSesionCliente(AdministradorDeSesion& adminDeSesion)
     {
         system("cls");
@@ -32,6 +31,6 @@ public:
                 return static_cast<int>(cliente->getId());
             }
         }
-        return -1; // login fallido
+        return -1; 
     }
 };
