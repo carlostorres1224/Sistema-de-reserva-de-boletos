@@ -18,28 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Cliente.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Pago.cpp" />
-    <ClCompile Include="Reservacion.cpp" />
-    <ClCompile Include="Sistema de reserva de Boletos de Avión.cpp" />
-    <ClCompile Include="Vuelo.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AdministradorDeSesion.h" />
-    <ClInclude Include="Cliente.h" />
-    <ClInclude Include="Menu.h" />
-    <ClInclude Include="Pago.h" />
-    <ClInclude Include="Reservacion.h" />
-    <ClInclude Include="Usuario.h" />
-    <ClInclude Include="Vuelo.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{827f0355-faad-4a7f-929b-ce8d503645d8}</ProjectGuid>
-    <RootNamespace>SistemadeReservadeBoletosdeAvión</RootNamespace>
+    <ProjectGuid>{7b707afe-2b34-4914-8357-2293fb74e907}</ProjectGuid>
+    <RootNamespace>ServidorPago</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,6 +122,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ServidorPago.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

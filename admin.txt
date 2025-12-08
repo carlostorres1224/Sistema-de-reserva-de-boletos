@@ -1,1 +1,2 @@
 1 admin1 admin@tec.mx 1234 admin
+2 El admin administra 123 admin

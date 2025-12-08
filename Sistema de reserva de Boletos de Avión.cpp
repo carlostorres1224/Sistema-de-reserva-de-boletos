@@ -1,112 +1,111 @@
 #include <iostream>
-#include <fstream>
-#include "Usuario.h"
 #include "Cliente.h"
 #include "AdministradorDeSesion.h"
 #include "Menu.h"
+#include "Pago.h"
 
 using namespace std;
 
-void CrearAdminPorDefecto() {
-    ifstream archivo("admin.txt");
-    if (!archivo.is_open() || archivo.peek() == ifstream::traits_type::eof()) {
-        ofstream salida("admin.txt", ios::app);
-        salida << "1 admin1 admin@tec.mx 1234 admin" << endl;
-        salida.close();
-    }
-}
-
 int main()
 {
-    CrearAdminPorDefecto(); 
-
-    AdministradorDeSesion adminDeSesion;
-    Menu menu;
+    AdministradorDeSesion adminDeSesion; // Maneja sesiones activas
     Cliente cliente;
+    int opcionPrincipal = 0;
 
-    int opcion;
-    do {
-        system("cls");
-        cout << "1 - Iniciar sesión\n";
-        cout << "2 - Salir\n";
-        cout << "Admin predefinido: admin@tec.mx 1234\n";
-        cin >> opcion;
+    do
+    {
+        cout << "\n=== SISTEMA DE RESERVA DE BOLETOS DE AVION ===\n";
+        cout << "1 - Iniciar sesión como Cliente\n";
+        cout << "2 - Registrar Cliente\n";
+        cout << "3 - Salir\n";
+        cout << "Ingrese una opción: ";
+        cin >> opcionPrincipal;
 
-        if (opcion == 1)
+        switch (opcionPrincipal)
         {
-            system("cls");
-            int tipoUsuario;
-            cout << "1 - Administrador\n2 - Cliente\n";
-            cin >> tipoUsuario;
+        case 1:
+        {
+            // Login Cliente
+            int IDUsuario = cliente.IniciarSesionCliente(adminDeSesion);
 
-            if (tipoUsuario == 1)
+            if (IDUsuario)
             {
-                string correo, password;
-                cout << "Correo: "; cin >> correo;
-                cout << "Password: "; cin >> password;
-
-                auto admins = Usuario::ObtenerUsuarios("admin.txt");
-
-                if (adminDeSesion.login(correo, password, admins))
+                int opcionMenu = 0;
+                do
                 {
-                    auto adminLogueado = adminDeSesion.getSesionUsuario(admins.back()->getId());
+                    cout << "\n=== MENU CLIENTE ===\n";
+                    cout << "1 - Reservar vuelo\n";
+                    cout << "2 - Pagar boleto\n";
+                    cout << "3 - Ver mis reservaciones\n";
+                    cout << "4 - Cerrar sesión\n";
+                    cout << "Ingrese una opción: ";
+                    cin >> opcionMenu;
 
-                    int opcionAdmin;
-                    do {
-                        system("cls");
-                        cout << "---- PANEL ADMIN ----\n";
-                        cout << "1 - Registrar administrador\n";
-                        cout << "2 - Registrar cliente\n";
-                        cout << "3 - Cerrar sesión\n";
-                        cin >> opcionAdmin;
+                    switch (opcionMenu)
+                    {
+                    case 1:
+                        cliente.ReservarVuelo(adminDeSesion, IDUsuario);
+                        break;
+                    case 2:
+                    {
+                        Pago pago;
+                        string numeroTarjeta;
+                        cout << "Ingrese número de tarjeta: ";
+                        cin >> numeroTarjeta;
 
-                        if (opcionAdmin == 1)
-                        {
-                            string nombre, correoN, passwordN;
-                            cout << "Nombre: "; cin.ignore(); getline(cin, nombre);
-                            cout << "Correo: "; cin >> correoN;
-                            cout << "Password: "; cin >> passwordN;
-                            size_t nuevoId = admins.size() + 1;
-                            Usuario::RegistrarUsuario("admin.txt", nuevoId, nombre, correoN, passwordN, "admin");
-                        }
-                        else if (opcionAdmin == 2)
-                        {
-                            string nombre, correoN, passwordN;
-                            cout << "Nombre: "; cin.ignore(); getline(cin, nombre);
-                            cout << "Correo: "; cin >> correoN;
-                            cout << "Password: "; cin >> passwordN;
-                            auto clientesList = Usuario::ObtenerUsuarios("clientes.txt");
-                            size_t nuevoId = clientesList.size() + 1;
-                            Usuario::RegistrarUsuario("clientes.txt", nuevoId, nombre, correoN, passwordN, "cliente");
-                        }
-                    } while (opcionAdmin != 3);
+                        bool exito = pago.PagarReservacion(numeroTarjeta);
+                        if (exito)
+                            cout << "Pago realizado con éxito.\n";
+                        else
+                            cout << "Pago rechazado.\n";
 
-                    adminDeSesion.logout(adminLogueado->getId());
-                }
-                else
-                {
-                    cout << "Error: usuario o password incorrectos.\n";
-                    cin.ignore(); cin.get();
-                }
+                        break;
+                    }
+                    case 3:
+                        cliente.MostrarReservaciones(adminDeSesion);
+                        break;
+                    case 4:
+                        cout << "Cerrando sesión...\n";
+                        adminDeSesion.Logout(IDUsuario);
+                        break;
+                    default:
+                        cout << "Opción inválida.\n";
+                    }
+                } while (opcionMenu != 4);
             }
-            else if (tipoUsuario == 2)
+            else
             {
-                int clienteId = cliente.IniciarSesionCliente(adminDeSesion);
-                if (clienteId != -1)
-                {
-                    auto clienteLogueado = adminDeSesion.getSesionUsuario(clienteId);
-                    menu.MostrarMenu(clienteLogueado);
-                    adminDeSesion.logout(clienteId);
-                }
-                else
-                {
-                    cout << "Error: usuario o password incorrectos.\n";
-                    cin.ignore(); cin.get();
-                }
+                cout << "Error al iniciar sesión.\n";
             }
+
+            break;
+        }
+        case 2:
+        {
+            string nombre, correo, password;
+            cout << "Ingrese nombre: ";
+            cin >> nombre;
+            cout << "Ingrese correo: ";
+            cin >> correo;
+            cout << "Ingrese password: ";
+            cin >> password;
+
+            // Registro de cliente
+            if (cliente.Registro(nombre, correo, password))
+                cout << "Cliente registrado con éxito.\n";
+            else
+                cout << "Error al registrar cliente.\n";
+
+            break;
+        }
+        case 3:
+            cout << "Saliendo del sistema...\n";
+            break;
+        default:
+            cout << "Opción inválida.\n";
         }
 
-    } while (opcion != 2);
+    } while (opcionPrincipal != 3);
 
     return 0;
 }

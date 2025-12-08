@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <map>
 #include <memory>
 #include <vector>
@@ -8,10 +8,12 @@
 class AdministradorDeSesion
 {
 private:
+    // idUsuario → puntero al usuario
     std::map<size_t, std::shared_ptr<Usuario>> sesionesActivas;
 
 public:
-    bool login(const std::string& email, const std::string& password,
+    bool login(const std::string& email,
+        const std::string& password,
         const std::vector<std::shared_ptr<Usuario>>& usuarios)
     {
         for (const auto& usuario : usuarios)
@@ -39,9 +41,7 @@ public:
     {
         auto it = sesionesActivas.find(idUsuario);
         if (it != sesionesActivas.end())
-        {
             return it->second;
-        }
         return nullptr;
     }
 };
