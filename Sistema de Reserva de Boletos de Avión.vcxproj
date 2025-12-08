@@ -19,21 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Cliente.cpp" />
-    <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Pago.cpp" />
-    <ClCompile Include="Reservacion.cpp" />
     <ClCompile Include="Sistema de reserva de Boletos de Avión.cpp" />
-    <ClCompile Include="Vuelo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AdministradorDeSesion.h" />
     <ClInclude Include="Cliente.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Pago.h" />
-    <ClInclude Include="Reservacion.h" />
     <ClInclude Include="Usuario.h" />
-    <ClInclude Include="Vuelo.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

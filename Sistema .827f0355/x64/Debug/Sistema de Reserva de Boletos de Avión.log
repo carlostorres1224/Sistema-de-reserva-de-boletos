@@ -1,41 +1,9 @@
-﻿  Cliente.cpp
-  Menu.cpp
-C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Cliente.cpp(24,22): error C2039: "ValidarID": no es un miembro de "Usuario"
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Usuario.h(9,7):
-      vea la declaración de 'Usuario'
-  
-C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Cliente.cpp(26,34): error C2039: "getID": no es un miembro de "Usuario"
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Usuario.h(9,7):
-      vea la declaración de 'Usuario'
-  
-C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Cliente.cpp(27,27): error C2039: "ActivarSesion": no es un miembro de "AdministradorDeSesion"
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\AdministradorDeSesion.h(8,7):
-      vea la declaración de 'AdministradorDeSesion'
-  
-C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Cliente.cpp(37,23): error C2039: "IsLoggedIn": no es un miembro de "AdministradorDeSesion"
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\AdministradorDeSesion.h(8,7):
-      vea la declaración de 'AdministradorDeSesion'
-  
-C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Menu.cpp(24,21): error C2660: 'Cliente::MostrarReservaciones': la función no acepta 2 argumentos
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Cliente.h(18,10):
-      vea la declaración de 'Cliente::MostrarReservaciones'
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Menu.cpp(24,21):
-      al hacer coincidir la lista de argumentos '(AdministradorDeSesion, int)'
-  
-  Pago.cpp
-  Reservacion.cpp
-C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Reservacion.cpp(5,24): error C2039: "IsLoggedIn": no es un miembro de "AdministradorDeSesion"
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\AdministradorDeSesion.h(8,7):
-      vea la declaración de 'AdministradorDeSesion'
-  
-  Sistema de reserva de Boletos de Avión.cpp
-C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(69,39): error C2039: "Logout": no es un miembro de "AdministradorDeSesion"
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\AdministradorDeSesion.h(8,7):
-      vea la declaración de 'AdministradorDeSesion'
-  
-C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(94,25): error C2039: "Registro": no es un miembro de "Cliente"
-      C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Cliente.h(6,7):
-      vea la declaración de 'Cliente'
-  
-  Vuelo.cpp
-  Generando código...
+﻿  Sistema de reserva de Boletos de Avión.cpp
+C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(271,41): warning C4267: 'argumento': conversión de 'size_t' a '_Ty'; posible pérdida de datos
+C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(271,41): warning C4267:         with
+C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(271,41): warning C4267:         [
+C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(271,41): warning C4267:             _Ty=int
+C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(271,41): warning C4267:         ]
+C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(413,70): warning C4267: 'argumento': conversión de 'size_t' a 'int'; posible pérdida de datos
+C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\Sistema de reserva de Boletos de Avión.cpp(414,71): warning C4267: 'argumento': conversión de 'size_t' a 'int'; posible pérdida de datos
+  Sistema de Reserva de Boletos de Avión.vcxproj -> C:\Users\Charlie\source\repos\Sistema de Reserva de Boletos de Avión\x64\Debug\Sistema de Reserva de Boletos de Avión.exe
